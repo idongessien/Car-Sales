@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import Header from "./components/Header";
 import AddedFeatures from "./components/AddedFeatures";
 import AdditionalFeatures from "./components/AdditionalFeatures";
@@ -8,19 +8,29 @@ import { addFeature, deleteFeature } from "./actions/index";
 /* import {carReducer, initialState} from './reducers/carReducer'
  */
 const App = props => {
+  const dispatch = useDispatch();
   /*   const[state,dispatch]=useReducer(carReducer, initialState);
    */
+  const reduxHookState = useSelector(state => {
+    return {
+      additionalPrice: state.additionalPrice,
+      car: state.car,
+      additionalFeatures: state.additionalFeatures
+    };
+  });
 
   const removeFeature = item => {
     // dispatch an action here to remove an item
-    props.deleteFeature(item);
+    //props.deleteFeature(item);
+    dispatch({ type: "DELETE_FEATURE", payload: item });
   };
 
   const buyItem = item => {
     // dipsatch an action here to add an item
     props.addFeature(item);
   };
-  console.log(props);
+  console.log("StateToProps", props);
+  console.log("redux hook state", reduxHookState);
 
   return (
     <div className="boxes">
